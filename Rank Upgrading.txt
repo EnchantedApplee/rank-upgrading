@@ -1,0 +1,241 @@
+options:
+    border: &c&l&m=====================
+
+# Credits Stuff
+
+command /credits:
+    trigger:
+        send "&aYour credits: &f%{credits::%player's uuid%}%" to player
+
+
+command /addcredits <offline player> <number>:
+    permission: credits.give
+    permission message: &cYou do not have the required permission to execute this command.
+    usage: &cWrong usage, /addcredits <player> <amount>
+    trigger:
+        add arg 2 to {credits::%arg-1's uuid%}
+        send "&a%arg-2% &3Credits has been added to %arg-1%'s account." to player
+
+
+# Main menu
+
+command /creditshop:
+    trigger:
+        set metadata tag "creditShop" of player to chest inventory with 1 row named "&9Credits Shop"
+        set slot 3 of metadata tag "creditShop" of player to book named "&fCredits" with lore "&aYour current credits amount is: &f%{credits::%player's uuid%}%"
+        set slot 4 of metadata tag "creditShop" of player to bottle o' enchanting named "&6&lClick to open ranks shop" with lore "&7Click to access the shop."
+        set slot 5 of metadata tag "creditShop" of player to diamond sword named "&a&lWhat is the credits shop?" with lore "&fCredits shop is a place you can buy ranks using your credits!"
+        open (metadata tag "creditShop" of player) to player
+
+
+# Inventory Cancels
+
+on inventory click:
+    if event-inventory = (metadata tag "creditShop" of player):
+        cancel event
+
+
+on inventory click:
+    if event-inventory = (metadata tag "defaultShop" of player):
+        cancel event
+
+on inventory click:
+    if event-inventory = (metadata tag "vipShop" of player):
+        cancel event
+
+on inventory click:
+    if event-inventory = (metadata tag "vip+Shop" of player):
+        cancel event
+
+on inventory click:
+    if event-inventory = (metadata tag "mvpShop" of player):
+        cancel event
+
+
+on inventory click:
+    if event-inventory = (metadata tag "mvp+Shop" of player):
+        cancel event
+
+
+on inventory click:
+    if event-inventory = (metadata tag "heroShop" of player):
+        cancel event
+
+# Check slot
+
+on inventory click:
+    if event-inventory = (metadata tag "creditShop" of player):
+        if index of event-slot is 4:
+            make player execute command "/rankupgrade"
+            
+
+# Rank Upgrade
+
+command /rankupgrade:
+    trigger:
+        if player's group is "default":
+            set metadata tag "defaultShop" of player to chest inventory with 3 rows named "&aRank Upgrade"
+            set slot 0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,24,25,26 of metadata tag "defaultShop" of player to gray stained glass pane named " "
+            set slot 10 of metadata tag "defaultShop" of player to paper named "&a&lUpgrade to VIP" with lore "&aCost: &6100 Credits"
+            set slot 11 of metadata tag "defaultShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 12 of metadata tag "defaultShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 13 of metadata tag "defaultShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 14 of metadata tag "defaultShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 15 of metadata tag "defaultShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 16 of metadata tag "defaultShop" of player to barrier named "&c&lComing Soon"
+            open (metadata tag "defaultShop" of player) to player
+        else if player's group is "vip":
+            set metadata tag "vipShop" of player to chest inventory with 3 rows named "&aRank Upgrade" 
+            set slot 0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,24,25,26 of metadata tag "vipShop" of player to gray stained glass pane named " "
+            set slot 10 of metadata tag "vipShop" of player to paper named "&a&lUpgrade to VIP" with lore "&cYou have already bought this!"
+            set slot 11 of metadata tag "vipShop" of player to paper named "&2&lUpgrade to VIP+" with lore "&ACost: &6300 Credits"
+            set slot 12 of metadata tag "vipShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 13 of metadata tag "vipShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 14 of metadata tag "vipShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 15 of metadata tag "vipShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 16 of metadata tag "vipShop" of player to barrier named "&c&lComing Soon"
+            open (metadata tag "vipShop" of player) to player
+        else if player's group is "vip+":
+            set metadata tag "vip+Shop" of player to chest inventory with 3 rows named "&aRank Upgrade" 
+            set slot 0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,24,25,26 of metadata tag "vip+Shop" of player to gray stained glass pane named " "
+            set slot 10 of metadata tag "vip+Shop" of player to paper named "&a&lUpgrade to VIP" with lore "&cYou have already bought this!"
+            set slot 11 of metadata tag "vip+Shop" of player to paper named "&2&lUpgrade to VIP+" with lore "&cYou have already bought this!"
+            set slot 12 of metadata tag "vip+Shop" of player to paper named "&b&lUpgrade to MVP" with lore "&aCost: &6500 Credits"
+            set slot 13 of metadata tag "vip+Shop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 14 of metadata tag "vip+Shop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 15 of metadata tag "vip+Shop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 16 of metadata tag "vip+Shop" of player to barrier named "&c&lComing Soon"
+            open (metadata tag "vip+Shop" of player) to player
+        else if player's group is "mvp":
+            set metadata tag "mvpShop" of player to chest inventory with 3 rows named "&aRank Upgrade" 
+            set slot 0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,24,25,26 of metadata tag "mvpShop" of player to gray stained glass pane named " "
+            set slot 10 of metadata tag "mvpShop" of player to paper named "&a&lUpgrade to VIP" with lore "&cYou have already bought this!"
+            set slot 11 of metadata tag "mvpShop" of player to paper named "&2&lUpgrade to VIP+" with lore "&cYou have already bought this!"
+            set slot 12 of metadata tag "mvpShop" of player to paper named "&b&lUpgrade to MVP" with lore "&cYou have already bought this!"
+            set slot 13 of metadata tag "mvpShop" of player to paper named "&9&lUpgrade to MVP+" with lore "&aCost: &6800 Credits"
+            set slot 14 of metadata tag "mvpShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 15 of metadata tag "mvpShop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 16 of metadata tag "mvpShop" of player to barrier named "&c&lComing Soon"
+            open (metadata tag "mvpShop" of player) to player
+        else if player's group is "mvp+":
+            set metadata tag "mvp+Shop" of player to chest inventory with 3 rows named "&aRank Upgrade" 
+            set slot 0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,24,25,26 of metadata tag "mvp+Shop" of player to gray stained glass pane named " "
+            set slot 10 of metadata tag "mvp+Shop" of player to paper named "&a&lUpgrade to VIP" with lore "&cYou have already bought this!"
+            set slot 11 of metadata tag "mvp+Shop" of player to paper named "&2&lUpgrade to VIP+" with lore "&cYou have already bought this!"
+            set slot 12 of metadata tag "mvp+Shop" of player to paper named "&b&lUpgrade to MVP" with lore "&cYou have already bought this!"
+            set slot 13 of metadata tag "mvp+Shop" of player to paper named "&9&lUpgrade to MVP+" with lore "&cYou have already bought this!"
+            set slot 14 of metadata tag "mvp+Shop" of player to paper named "&5&lUpgrade to HERO" with lore "&aCost: &61200 Credits"
+            set slot 15 of metadata tag "mvp+Shop" of player to barrier named "&c&lUnlock the previous one first!"
+            set slot 16 of metadata tag "mvp+Shop" of player to barrier named "&c&lComing Soon"
+            open (metadata tag "mvp+Shop" of player) to player
+        else if player's group is "hero":
+            set metadata tag "heroShop" of player to chest inventory with 3 rows named "&aRank Upgrade" 
+            set slot 0,1,2,3,4,5,6,7,8,9,17,18,19,20,21,22,23,24,25,26 of metadata tag "heroShop" of player to gray stained glass pane named " "
+            set slot 10 of metadata tag "heroShop" of player to paper named "&a&lUpgrade to VIP" with lore "&cYou have already bought this!"
+            set slot 11 of metadata tag "heroShop" of player to paper named "&2&lUpgrade to VIP+" with lore "&cYou have already bought this!"
+            set slot 12 of metadata tag "heroShop" of player to paper named "&b&lUpgrade to MVP" with lore "&cYou have already bought this!"
+            set slot 13 of metadata tag "heroShop" of player to paper named "&9&lUpgrade to MVP+" with lore "&cYou have already bought this!"
+            set slot 14 of metadata tag "heroShop" of player to paper named "&5&lUpgrade to HERO" with lore "&cYou have already bought this!"
+            set slot 15 of metadata tag "heroShop" of player to paper named "&6&lUpgrade to LEGEND" with lore "&aCost: &61800 Credits"
+            set slot 16 of metadata tag "heroShop" of player to barrier named "&c&lComing Soon"
+            open (metadata tag "heroShop" of player) to player
+
+
+
+
+# Purchases
+
+on inventory click:
+    if event-inventory = (metadata tag "defaultShop" of player):
+        if index of event-slot is 10:
+            if {credits::%player's uuid%} >= 100:
+                send "&aYou have upgraded your rank to &a&lVIP!" to player
+                close player's inventory
+                wait 30 ticks
+                make console execute command "/lp user %player% parent set vip"
+                remove 100 from {credits::%player's uuid%}
+                broadcast "{@border}"
+                broadcast "&a&lThank you &a%player% for buying VIP!"
+                broadcast "{@border}"
+            else if {credits::%player's uuid%} < 100:
+                send "&cYou do not have enough credits to upgrade your rank! &ePurchase credits using /buy!" to player
+
+
+on inventory click:
+    if event-inventory = (metadata tag "vipShop" of player):
+        if index of event-slot is 11:
+            if {credits::%player's uuid%} >= 300:
+                send "&aYou have upgraded your rank to &a&lVIP+!" to player
+                close player's inventory
+                wait 30 ticks
+                make console execute command "/lp user %player% parent set vip+"
+                remove 300 from {credits::%player's uuid%}
+                broadcast "{@border}"
+                broadcast "&a&lThank you &a%player% for buying &a&lVIP+!"
+                broadcast "{@border}"
+            else if {credits::%player's uuid%} < 300:
+                send "&cYou do not have enough credits to upgrade your rank! &ePurchase credits using /buy!" to player
+
+
+on inventory click:
+    if event-inventory = (metadata tag "vip+Shop" of player):
+        if index of event-slot is 12:
+            if {credits::%player's uuid%} >= 500:
+                send "&aYou have upgraded your rank to &a&lMVP!" to player
+                close player's inventory
+                wait 30 ticks
+                make console execute command "/lp user %player% parent set mvp"
+                remove 500 from {credits::%player's uuid%}
+                broadcast "{@border}"
+                broadcast "&a&lThank you &a%player% for buying &a&lMVP!"
+                broadcast "{@border}"
+            else if {credits::%player's uuid%} < 500:
+                send "&cYou do not have enough credits to upgrade your rank! &ePurchase credits using /buy!" to player
+
+
+on inventory click:
+    if event-inventory = (metadata tag "mvpShop" of player):
+        if index of event-slot is 13:
+            if {credits::%player's uuid%} >= 800:
+                send "&aYou have upgraded your rank to &a&lMVP+!" to player
+                close player's inventory
+                wait 30 ticks
+                make console execute command "/lp user %player% parent set mvp+"
+                remove 800 from {credits::%player's uuid%}
+                broadcast "{@border}"
+                broadcast "&a&lThank you &a%player% for buying &a&lMVP+!"
+                broadcast "{@border}"
+            else if {credits::%player's uuid%} < 800:
+                send "&cYou do not have enough credits to upgrade your rank! &ePurchase credits using /buy!" to player
+
+
+on inventory click:
+    if event-inventory = (metadata tag "mvp+Shop" of player):
+        if index of event-slot is 14:
+            if {credits::%player's uuid%} >= 1200:
+                send "&aYou have upgraded your rank to &a&lMVP+!" to player
+                close player's inventory
+                wait 30 ticks
+                make console execute command "/lp user %player% parent set hero"
+                remove 1200 from {credits::%player's uuid%}
+                broadcast "{@border}"
+                broadcast "&a&lThank you &a%player% for buying &a&lHERO!"
+                broadcast "{@border}"
+            else if {credits::%player's uuid%} < 1200:
+                send "&cYou do not have enough credits to upgrade your rank! &ePurchase credits using /buy!" to player
+
+
+on inventory click:
+    if event-inventory = (metadata tag "heroShop" of player):
+        if index of event-slot is 15:
+            if {credits::%player's uuid%} >= 1800:
+                send "&aYou have upgraded your rank to &a&lHERO!" to player
+                close player's inventory
+                wait 30 ticks
+                make console execute command "/lp user %player% parent set legend"
+                remove 1800 from {credits::%player's uuid%}
+                broadcast "{@border}"
+                broadcast "&a&lThank you &a%player% for buying &a&lLEGEND!"
+                broadcast "{@border}"
+            else if {credits::%player's uuid%} < 1800:
+                send "&cYou do not have enough credits to upgrade your rank! &ePurchase credits using /buy!" to player
